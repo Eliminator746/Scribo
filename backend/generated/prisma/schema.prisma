@@ -1,0 +1,72 @@
+generator client {
+  provider = "prisma-client-js"
+  output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum Role {
+  admin
+  author
+  reader
+}
+
+enum PostStatus {
+  draft
+  published
+}
+
+enum CommentStatus {
+  approved
+  pending
+}
+
+model User {
+  user_id    Int       @id @default(autoincrement())
+  username   String
+  email      String    @unique
+  password   String
+  role       Role      @default(reader)
+  created_at DateTime  @default(now())
+  posts      Post[]
+  comments   Comment[]
+}
+
+model Post {
+  post_id    Int        @id @default(autoincrement())
+  user_id    Int? /* author of post */
+  title      String
+  slug       String     @unique
+  image_url  String?
+  status     PostStatus @default(draft)
+  created_at DateTime   @default(now())
+  updated_at DateTime   @updatedAt
+  author     User?      @relation(fields: [user_id], references: [user_id], onDelete: SetNull)
+  comments   Comment[]
+  postViews  PostView[]
+}
+
+model Comment {
+  comment_id        Int           @id @default(autoincrement())
+  post_id           Int
+  user_id           Int?
+  parent_comment_id Int?
+  comment_text      String
+  status            CommentStatus @default(pending)
+  created_at        DateTime      @default(now())
+  post              Post          @relation(fields: [post_id], references: [post_id], onDelete: Cascade)
+  user              User?         @relation(fields: [user_id], references: [user_id], onDelete: SetNull)
+  parent_comment    Comment?      @relation("CommentReplies", fields: [parent_comment_id], references: [comment_id], onDelete: Cascade)
+  replies           Comment[]     @relation("CommentReplies")
+}
+
+model PostView {
+  post_view_id Int  @id @default(autoincrement())
+  post_id      Int
+  view_count   Int  @default(0)
+  like_count   Int  @default(0)
+  post         Post @relation(fields: [post_id], references: [post_id], onDelete: Cascade)
+}
