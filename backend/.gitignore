@@ -2,6 +2,18 @@
 dist/
 wrangler.toml
 
+# deps
+node_modules/
+.wrangler
+
+# Generated folder
+/generated/
+
+# env
+.env
+.env.production
+.dev.vars
+
 # dev
 .yarn/
 !.yarn/releases
@@ -11,15 +23,6 @@ wrangler.toml
 .idea/workspace.xml
 .idea/usage.statistics.xml
 .idea/shelf
-
-# deps
-node_modules/
-.wrangler
-
-# env
-.env
-.env.production
-.dev.vars
 
 # logs
 logs/

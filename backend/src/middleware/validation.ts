@@ -10,3 +10,12 @@ export const UserLoginSchema = z.object({
   email: z.email("Invalid email address"),
   password: z.string(),
 });
+
+// Enum -> PostStatus
+export const PostStatusEnum = z.enum(["draft", "published"]);
+
+export const PostSchema = z.object({
+  title: z.string().min(1, "Title is required"),
+  image_url: z.url("Invalid image URL").optional().nullable(),
+  status: PostStatusEnum.default("draft").optional(),
+});

@@ -1,6 +1,7 @@
 import express from "express";
 import cookieParser from "cookie-parser";
 import { authRouter } from "./router/auth.router";
+import { blogRouter } from "./router/blog.router";
 
 const app = express();
 const port = process.env.PORT || 3000;
@@ -12,6 +13,7 @@ app.use(express.urlencoded({ extended: true, limit: "16kb" }));
 
 app.use(cookieParser());
 app.use("/api/v1/auth", authRouter);
+app.use("/api/v1/blog", blogRouter);
 
 app.listen(port, () => {
   console.log(`Server is running on PORT ${port}`);

@@ -12,6 +12,7 @@ enum Role {
   admin
   author
   reader
+  system
 }
 
 enum PostStatus {
