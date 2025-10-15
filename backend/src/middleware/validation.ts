@@ -19,3 +19,7 @@ export const PostSchema = z.object({
   image_url: z.url("Invalid image URL").optional().nullable(),
   status: PostStatusEnum.default("draft").optional(),
 });
+
+export const querySchema = z.object({
+  status: z.enum(["draft", "published"]).optional(),
+});

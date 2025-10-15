@@ -1,8 +1,9 @@
 import { Router } from "express";
 import {
   createBlog,
-  getAllBlogs,
-  getBlogById,
+  getAllPublishedBlogs,
+  getMyBlogs,
+  getBlogBySlug,
   updateBlog,
   deleteBlog,
 } from "../controller/blog.controller.js";
@@ -10,6 +11,14 @@ import { verifyJWT } from "../middleware/auth.middleware.js";
 
 export const blogRouter = Router();
 
-blogRouter.route("/").get(getAllBlogs).post(verifyJWT, createBlog);
+// Public routes
+blogRouter.route("/published").get(getAllPublishedBlogs);
+blogRouter.route("/:slug").get(getBlogBySlug);
 
-blogRouter.route("/:id").get(getBlogById).put(updateBlog).delete(deleteBlog);
+// Protected routes
+blogRouter.route("/me/my-blogs").get(verifyJWT, getMyBlogs);
+blogRouter.route("/create-blog").post(verifyJWT, createBlog);
+blogRouter
+  .route("/:id")
+  .put(verifyJWT, updateBlog)
+  .delete(verifyJWT, deleteBlog);
