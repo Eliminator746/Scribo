@@ -1,6 +1,13 @@
-import { Request, Response } from "express";
-const registerUser = (req: Request, res: Response): void => {
-  res.send("User route is working!");
+import { RequestHandler } from "express";
+
+export const getUserProfile: RequestHandler = async (req, res) => {
+  // Get user profile logic here
 };
 
-export { registerUser };
+export const updateUser: RequestHandler = async (req, res) => {
+  // Update user profile logic here
+};
+
+export const deleteUser: RequestHandler = async (req, res) => {
+  // Delete user logic here
+};

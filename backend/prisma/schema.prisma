@@ -47,6 +47,8 @@ model Post {
   author     User?      @relation(fields: [user_id], references: [user_id], onDelete: SetNull)
   comments   Comment[]
   postViews  PostView[]
+
+  @@index([slug])
 }
 
 model Comment {
