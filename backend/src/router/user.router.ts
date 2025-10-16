@@ -10,6 +10,6 @@ export const userRouter = Router();
 
 userRouter
   .route("/:id")
-  .get(getUserProfile)
-  .put(updateUser)
+  .get(verifyJWT, getUserProfile)
+  .put(verifyJWT, updateUser)
   .delete(verifyJWT, deleteUser);
