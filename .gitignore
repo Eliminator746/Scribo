@@ -47,3 +47,4 @@ node_modules/
 dist/
 
 server/credentials.txt
+server/media/
