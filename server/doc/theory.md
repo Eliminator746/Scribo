@@ -11,3 +11,5 @@
 | Read blog                | GET    | `/api/blogs/<slug>/`      | Public           | Read a single blog                 |
 | Update blog              | PATCH  | `/api/blogs/<pk>/manage/` | Author           | Update own blog post               |
 | Delete blog              | DELETE | `/api/blogs/<pk>/manage/` | Author           | Delete own blog post               |
+
+media folder (contains images send by user) is created but it is local and not pushed to remote

@@ -3,7 +3,7 @@ from rest_framework import generics, permissions, status
 from rest_framework.permissions import AllowAny, IsAuthenticated, IsAdminUser
 from .permissions import IsSelf
 from .serializers import CreateUserSerializer, PrivateUserSerializer, PublicUserSerializer
-from rest_framework.parsers import MultiPartParser, FormParser
+from rest_framework.parsers import JSONParser, MultiPartParser, FormParser
 from django.contrib.auth import get_user_model, authenticate, login, logout
 from rest_framework.views import APIView
 from rest_framework.response import Response
@@ -13,7 +13,7 @@ User = get_user_model()
 # Register user: POST /auth/register/
 class RegisterUserView(APIView):
     permission_classes = [permissions.AllowAny]
-    parser_classes = [MultiPartParser, FormParser]  # allows profile_picture upload
+    parser_classes = [JSONParser, MultiPartParser, FormParser]  # allows profile_picture upload, JSONParser -> for no file 
 
     def post(self, request):
         serializer = CreateUserSerializer(data=request.data)
@@ -70,16 +70,24 @@ class LoginView(APIView):
     permission_classes = [AllowAny]
 
     def post(self, request):
-        username = request.data.get("username")
+        email = request.data.get("email")
         password = request.data.get("password")
 
-        if not username or not password:
+        if not email or not password:
             return Response(
-                {"detail": "Username and password are required"},
+                {"detail": "Email and password are required"},
                 status=status.HTTP_400_BAD_REQUEST,
             )
-
-        user = authenticate(username=username, password=password)
+        
+        try:
+            user_obj = User.objects.get(email=email)
+        except User.DoesNotExist:
+            return Response(
+                {"detail": "Invalid credentials"},
+                status=status.HTTP_401_UNAUTHORIZED,
+            )
+            
+        user = authenticate(username=user_obj.username, password=password)
 
         if not user:
             return Response(
