@@ -19,7 +19,7 @@ const Navbar = () => {
     try {
       await logout().unwrap();
       dispatch(logoutAction());
-      navigate("/login");
+      navigate("/");
     } catch (err) {
       console.error("Logout failed:", err);
     }

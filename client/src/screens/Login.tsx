@@ -1,25 +1,36 @@
-import { useState } from "react";
-import { useNavigate, Link } from "react-router-dom";
-import { useAppDispatch } from "@/store/hooks";
-import { useLoginMutation, useGetCurrentUserQuery } from "@/features/apiSlice";
+import { useState, useEffect } from "react";
+import { useNavigate, useLocation, Link } from "react-router-dom";
+import { useAppDispatch, useAppSelector } from "@/store/hooks";
+import { useLoginMutation } from "@/features/apiSlice";
 import { setCredentials } from "@/features/authSlice";
 
 const Login = () => {
-  const navigate = useNavigate();
   const dispatch = useAppDispatch();
-  const [login, { isLoading, error }] = useLoginMutation();
-  const { data: currentUser } = useGetCurrentUserQuery();
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  const [login, { isLoading }] = useLoginMutation();
+
+  const { userInfo } = useAppSelector((state) => state.auth);
+
+  const sp = new URLSearchParams(location.search);
+  const redirect = sp.get("redirect") || "/";
 
   const [formData, setFormData] = useState({
     email: "",
     password: "",
   });
 
+  useEffect(() => {
+    if (userInfo) {
+      navigate(redirect);
+    }
+  }, [userInfo, navigate, redirect]);
+
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
     setFormData((prev) => ({
       ...prev,
-      [name]: value,
+      [e.target.name]: e.target.value,
     }));
   };
 
@@ -27,15 +38,11 @@ const Login = () => {
     e.preventDefault();
 
     try {
-      // Login with email and password
-      const loginResult = await login(formData).unwrap();
-      console.log("Login successful:", loginResult);
+      const res = await login(formData).unwrap();
 
-      // If login successful and we have user data from the query, store credentials
-      if (currentUser) {
-        dispatch(setCredentials(currentUser));
-        navigate("/");
-      }
+      dispatch(setCredentials(res));
+      // DO NOT navigate here
+      // Let useEffect handle redirect
     } catch (err) {
       console.error("Login failed:", err);
     }
@@ -48,30 +55,18 @@ const Login = () => {
           Sign In
         </h1>
 
-        {error && (
-          <div className="mb-4 p-3 bg-red-100 text-red-700 rounded">
-            {typeof error === "string"
-              ? error
-              : "detail" in error
-                ? (error as any).detail
-                : "Login failed. Please try again."}
-          </div>
-        )}
-
         <form onSubmit={handleSubmit}>
           <div className="mb-4">
             <label className="block text-gray-700 font-medium mb-2">
               Email
             </label>
             <input
-              type="text"
+              type="email"
               name="email"
               value={formData.email}
               onChange={handleChange}
               className="w-full p-3 border rounded-sm focus:outline-none focus:ring-2 focus:ring-gray-400"
-              placeholder="Enter your email"
               required
-              disabled={isLoading}
             />
           </div>
 
@@ -85,16 +80,14 @@ const Login = () => {
               value={formData.password}
               onChange={handleChange}
               className="w-full p-3 border rounded-sm focus:outline-none focus:ring-2 focus:ring-gray-400"
-              placeholder="Enter your password"
               required
-              disabled={isLoading}
             />
           </div>
 
           <button
             type="submit"
             disabled={isLoading}
-            className="w-full py-3 px-5 bg-gray-800 text-white font-semibold rounded cursor-pointer hover:bg-gray-700 disabled:bg-gray-400 disabled:cursor-not-allowed transition"
+            className="w-full py-3 px-5 bg-gray-800 text-white font-semibold rounded hover:bg-gray-700 transition disabled:bg-gray-400"
           >
             {isLoading ? "Signing In..." : "Sign In"}
           </button>
@@ -103,8 +96,8 @@ const Login = () => {
         <div className="flex items-center gap-4 mt-6">
           <span className="text-sm text-gray-600">New Customer?</span>
           <Link
-            to="/register"
-            className="text-sm font-medium text-blue-600 hover:text-blue-700"
+            to={`/register?redirect=${redirect}`}
+            className="text-sm font-medium text-blue-600"
           >
             Register
           </Link>
