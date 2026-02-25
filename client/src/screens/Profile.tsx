@@ -1,4 +1,50 @@
+import { useAppSelector } from "@/store/hooks";
+import { useGetCurrentUserQuery } from "@/features/apiSlice";
+import BlogContainer from "@/ui_components/Blogcontainer";
+import Hero from "@/ui_components/Hero";
+
 const Profile = () => {
-  return <div>Profile</div>;
+  const { userInfo } = useAppSelector((state) => state.auth);
+  const { data: currentUser, isLoading, error } = useGetCurrentUserQuery();
+
+  // Use current user data if available, otherwise use stored userInfo
+  const profileData = currentUser || userInfo;
+
+  if (isLoading) {
+    return (
+      <div className="flex items-center justify-center min-h-screen">
+        <p className="text-gray-600">Loading profile...</p>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="flex items-center justify-center min-h-screen">
+        <p className="text-red-600">Failed to load profile</p>
+      </div>
+    );
+  }
+
+  if (!profileData) {
+    return (
+      <div className="flex items-center justify-center min-h-screen">
+        <p className="text-gray-600">No profile data available</p>
+      </div>
+    );
+  }
+
+  return (
+    <>
+      <Hero
+        name={profileData.username || "User"}
+        role={profileData.job_title || "Blogger"}
+        bio={profileData.bio || "Welcome to my profile"}
+        avatar={profileData.profile_picture_url || "/src/images/pic.jpg"}
+      />
+      <BlogContainer />
+    </>
+  );
 };
+
 export default Profile;

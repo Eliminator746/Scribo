@@ -25,6 +25,11 @@ const Navbar = () => {
     }
   };
 
+  const linkClasses = ({ isActive }: { isActive: boolean }) =>
+    `text-lg font-medium transition ${
+      isActive ? "text-blue-600" : "text-gray-800"
+    }`;
+
   return (
     <div className="sticky top-0 z-101 flex justify-between items-center py-4 px-6 bg-white bg-opacity-80 backdrop-blur-md text-gray-800 shadow-lg">
       {/* Logo */}
@@ -38,7 +43,9 @@ const Navbar = () => {
       {/* Right Section */}
       <div className="flex items-center space-x-6">
         {userInfo && (
-          <span className="text-lg font-medium">Hi, {userInfo.username}</span>
+          <NavLink to="/profile" className={linkClasses}>
+            Hi, {userInfo.username}
+          </NavLink>
         )}
 
         {userInfo && (
