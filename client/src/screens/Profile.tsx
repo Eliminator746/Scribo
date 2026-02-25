@@ -13,7 +13,7 @@ const Profile = () => {
   if (isLoading) {
     return (
       <div className="flex items-center justify-center min-h-screen">
-        <p className="text-gray-600">Loading profile...</p>
+        <p className="text-gray-600 dark:text-gray-400">Loading profile...</p>
       </div>
     );
   }
@@ -21,7 +21,7 @@ const Profile = () => {
   if (error) {
     return (
       <div className="flex items-center justify-center min-h-screen">
-        <p className="text-red-600">Failed to load profile</p>
+        <p className="text-red-600 dark:text-red-400">Failed to load profile</p>
       </div>
     );
   }
@@ -29,7 +29,9 @@ const Profile = () => {
   if (!profileData) {
     return (
       <div className="flex items-center justify-center min-h-screen">
-        <p className="text-gray-600">No profile data available</p>
+        <p className="text-gray-600 dark:text-gray-400">
+          No profile data available
+        </p>
       </div>
     );
   }

@@ -7,7 +7,7 @@ interface NavbarState {
 
 const initialState: NavbarState = {
   isSidebarOpen: false,
-  theme: "light",
+  theme: (localStorage.getItem("theme") as "light" | "dark") || "light",
 };
 
 const navbarSlice = createSlice({

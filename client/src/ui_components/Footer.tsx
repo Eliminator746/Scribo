@@ -5,13 +5,15 @@ import { CiMail } from "react-icons/ci";
 
 const Footer = () => {
   return (
-    <footer className="bg-gray-100 px-6 py-16 mt-16">
+    <footer className="bg-gray-100 dark:bg-gray-900 px-6 py-16 mt-16">
       <div className="max-w-7xl mx-auto grid gap-12 md:grid-cols-2 lg:grid-cols-4">
         {/* Brand Section */}
         <div className="flex flex-col gap-6">
-          <h1 className="text-2xl font-semibold text-gray-900">Scribo</h1>
+          <h1 className="text-2xl font-semibold text-gray-900 dark:text-white">
+            Scribo
+          </h1>
 
-          <p className="text-sm text-gray-600 leading-relaxed">
+          <p className="text-sm text-gray-600 dark:text-gray-300 leading-relaxed">
             Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do
             eiusmod tempor incididunt ut labore et dolore magna aliqua.
           </p>
@@ -19,37 +21,55 @@ const Footer = () => {
 
         {/* Quick Links */}
         <div>
-          <h3 className="text-lg font-semibold mb-4 text-gray-900">
+          <h3 className="text-lg font-semibold mb-4 text-gray-900 dark:text-white">
             Quick Links
           </h3>
-          <ul className="flex flex-col gap-3 text-sm text-gray-600">
+          <ul className="flex flex-col gap-3 text-sm text-gray-600 dark:text-gray-300">
             <li>
-              <Link to="/" className="hover:text-gray-900 transition">
+              <Link
+                to="/"
+                className="hover:text-gray-900 dark:hover:text-white transition"
+              >
                 Home
               </Link>
             </li>
             <li>
-              <Link to="/about" className="hover:text-gray-900 transition">
+              <Link
+                to="/about"
+                className="hover:text-gray-900 dark:hover:text-white transition"
+              >
                 About
               </Link>
             </li>
             <li>
-              <Link to="/blog" className="hover:text-gray-900 transition">
+              <Link
+                to="/blog"
+                className="hover:text-gray-900 dark:hover:text-white transition"
+              >
                 Blog
               </Link>
             </li>
             <li>
-              <Link to="/archive" className="hover:text-gray-900 transition">
+              <Link
+                to="/archive"
+                className="hover:text-gray-900 dark:hover:text-white transition"
+              >
                 Archived
               </Link>
             </li>
             <li>
-              <Link to="/author" className="hover:text-gray-900 transition">
+              <Link
+                to="/author"
+                className="hover:text-gray-900 dark:hover:text-white transition"
+              >
                 Author
               </Link>
             </li>
             <li>
-              <Link to="/contact" className="hover:text-gray-900 transition">
+              <Link
+                to="/contact"
+                className="hover:text-gray-900 dark:hover:text-white transition"
+              >
                 Contact
               </Link>
             </li>
@@ -58,10 +78,10 @@ const Footer = () => {
 
         {/* Categories */}
         <div>
-          <h3 className="text-lg font-semibold mb-4 text-gray-900">
+          <h3 className="text-lg font-semibold mb-4 text-gray-900 dark:text-white">
             Categories
           </h3>
-          <ul className="flex flex-col gap-3 text-sm text-gray-600">
+          <ul className="flex flex-col gap-3 text-sm text-gray-600 dark:text-gray-300">
             <li>Technology</li>
             <li>Business</li>
             <li>Travel</li>
@@ -72,12 +92,12 @@ const Footer = () => {
         </div>
 
         {/* Newsletter */}
-        <div className="bg-white p-6 rounded-xl shadow-sm flex flex-col gap-4">
-          <h3 className="text-xl font-semibold text-gray-900">
+        <div className="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-sm dark:shadow-md dark:shadow-black/30 flex flex-col gap-4">
+          <h3 className="text-xl font-semibold text-gray-900 dark:text-white">
             Weekly Newsletter
           </h3>
 
-          <p className="text-sm text-gray-600">
+          <p className="text-sm text-gray-600 dark:text-gray-300">
             Get blog articles and offers via email.
           </p>
 
@@ -85,19 +105,19 @@ const Footer = () => {
             <input
               type="email"
               placeholder="Your Email"
-              className="w-full border border-gray-300 rounded-md h-10 px-3 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="w-full border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white rounded-md h-10 px-3 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400"
             />
-            <CiMail className="absolute right-3 top-2.5 text-gray-500 text-lg" />
+            <CiMail className="absolute right-3 top-2.5 text-gray-500 dark:text-gray-400 text-lg" />
           </div>
 
-          <button className="bg-blue-600 hover:bg-blue-700 transition text-white rounded-md py-2 text-sm font-medium">
+          <button className="bg-blue-600 hover:bg-blue-700 dark:bg-blue-700 dark:hover:bg-blue-600 transition text-white rounded-md py-2 text-sm font-medium">
             Subscribe
           </button>
         </div>
       </div>
 
       {/* Social Icons */}
-      <div className="flex justify-center gap-6 mt-12 text-gray-700">
+      <div className="flex justify-center gap-6 mt-12 text-gray-700 dark:text-gray-300">
         <FaInstagram className="text-xl hover:text-black transition cursor-pointer" />
         <FaFacebookF className="text-xl hover:text-black transition cursor-pointer" />
         <BsTwitterX className="text-xl hover:text-black transition cursor-pointer" />

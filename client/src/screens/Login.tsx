@@ -49,15 +49,15 @@ const Login = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 p-4 flex justify-center">
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-950 p-4 flex justify-center">
       <div className="w-full max-w-3xl p-8">
-        <h1 className="text-3xl font-semibold text-center text-gray-800 my-6">
+        <h1 className="text-3xl font-semibold text-center text-gray-800 dark:text-white my-6">
           Sign In
         </h1>
 
         <form onSubmit={handleSubmit}>
           <div className="mb-4">
-            <label className="block text-gray-700 font-medium mb-2">
+            <label className="block text-gray-700 dark:text-gray-300 font-medium mb-2">
               Email
             </label>
             <input
@@ -65,13 +65,13 @@ const Login = () => {
               name="email"
               value={formData.email}
               onChange={handleChange}
-              className="w-full p-3 border rounded-sm focus:outline-none focus:ring-2 focus:ring-gray-400"
+              className="w-full p-3 border border-gray-300 dark:border-gray-600 dark:bg-gray-800 dark:text-white rounded-sm focus:outline-none focus:ring-2 focus:ring-gray-400 dark:focus:ring-gray-500"
               required
             />
           </div>
 
           <div className="mb-6">
-            <label className="block text-gray-700 font-medium mb-2">
+            <label className="block text-gray-700 dark:text-gray-300 font-medium mb-2">
               Password
             </label>
             <input
@@ -79,7 +79,7 @@ const Login = () => {
               name="password"
               value={formData.password}
               onChange={handleChange}
-              className="w-full p-3 border rounded-sm focus:outline-none focus:ring-2 focus:ring-gray-400"
+              className="w-full p-3 border border-gray-300 dark:border-gray-600 dark:bg-gray-800 dark:text-white rounded-sm focus:outline-none focus:ring-2 focus:ring-gray-400 dark:focus:ring-gray-500"
               required
             />
           </div>
@@ -87,17 +87,19 @@ const Login = () => {
           <button
             type="submit"
             disabled={isLoading}
-            className="w-full py-3 px-5 bg-gray-800 text-white font-semibold rounded hover:bg-gray-700 transition disabled:bg-gray-400"
+            className="w-full py-3 px-5 bg-gray-800 dark:bg-gray-700 text-white font-semibold rounded hover:bg-gray-700 dark:hover:bg-gray-600 transition disabled:bg-gray-400 dark:disabled:bg-gray-600"
           >
             {isLoading ? "Signing In..." : "Sign In"}
           </button>
         </form>
 
         <div className="flex items-center gap-4 mt-6">
-          <span className="text-sm text-gray-600">New Customer?</span>
+          <span className="text-sm text-gray-600 dark:text-gray-400">
+            New Customer?
+          </span>
           <Link
             to={`/register?redirect=${redirect}`}
-            className="text-sm font-medium text-blue-600"
+            className="text-sm font-medium text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300"
           >
             Register
           </Link>

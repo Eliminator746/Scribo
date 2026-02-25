@@ -13,11 +13,11 @@ const BlogWriter = ({ name, date, avatar }: BlogWriterProps) => {
           <img src={avatar} alt={name} className="w-full h-full object-cover" />
         </div>
 
-        <span className="text-sm text-gray-600">{name}</span>
+        <span className="text-sm text-gray-600 dark:text-gray-400">{name}</span>
       </div>
 
       {/* Date */}
-      <span className="text-sm text-gray-500">{date}</span>
+      <span className="text-sm text-gray-500 dark:text-gray-500">{date}</span>
     </div>
   );
 };

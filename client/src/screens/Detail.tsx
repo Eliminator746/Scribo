@@ -10,7 +10,7 @@ const DetailPage = () => {
       <Badge label="Frontend" />
 
       {/* Title */}
-      <h1 className="mt-6 text-3xl md:text-4xl font-semibold leading-snug text-gray-900">
+      <h1 className="mt-6 text-3xl md:text-4xl font-semibold leading-snug text-gray-900 dark:text-white">
         Build an Ecommerce Web App with Django and React
       </h1>
 
@@ -29,7 +29,7 @@ const DetailPage = () => {
       </div>
 
       {/* Blog Content */}
-      <article className="space-y-6 text-gray-700 leading-8 text-base text-justify">
+      <article className="space-y-6 text-gray-700 dark:text-gray-300 leading-8 text-base text-justify">
         <p>
           Sed ut perspiciatis unde omnis iste natus error sit voluptatem
           accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae

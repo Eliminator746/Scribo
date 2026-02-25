@@ -35,7 +35,7 @@ const BlogContainer = () => {
   return (
     <section className="px-6 py-12 max-w-7xl mx-auto">
       {/* Section Title */}
-      <h2 className="text-2xl font-semibold text-gray-800 text-center mb-10">
+      <h2 className="text-2xl font-semibold text-gray-800 dark:text-white text-center mb-10">
         Latest Posts
       </h2>
 
@@ -48,7 +48,9 @@ const BlogContainer = () => {
 
       {/* Empty State */}
       {blogs.length === 0 && (
-        <p className="text-center text-gray-500 mt-8">No posts available.</p>
+        <p className="text-center text-gray-500 dark:text-gray-400 mt-8">
+          No posts available.
+        </p>
       )}
     </section>
   );

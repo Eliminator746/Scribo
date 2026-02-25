@@ -6,7 +6,7 @@ type CardFooterProps = {
 
 const CardFooter = ({ author, date, readTime }: CardFooterProps) => {
   return (
-    <div className="flex items-center justify-between text-sm text-gray-500 mt-auto">
+    <div className="flex items-center justify-between text-sm text-gray-500 dark:text-gray-400 mt-auto">
       <span>By {author}</span>
 
       <div className="flex items-center gap-2">

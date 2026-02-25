@@ -21,7 +21,7 @@ const BlogCard = ({
   readTime,
 }: BlogCardProps) => {
   return (
-    <div className="flex flex-col rounded-xl border shadow-md overflow-hidden hover:shadow-lg transition duration-300 bg-white">
+    <div className="flex flex-col rounded-xl border border-gray-200 dark:border-gray-700 shadow-md dark:shadow-md dark:shadow-black/30 overflow-hidden hover:shadow-lg dark:hover:shadow-lg dark:hover:shadow-black/50 transition duration-300 bg-white dark:bg-gray-800">
       {/* Image */}
       <div className="h-200px overflow-hidden">
         <img
@@ -36,7 +36,7 @@ const BlogCard = ({
         <Badge label={category} />
 
         <Link to="/detail">
-          <h3 className="font-semibold text-lg text-gray-800 leading-snug">
+          <h3 className="font-semibold text-lg text-gray-800 dark:text-white leading-snug">
             {title}
           </h3>
         </Link>

@@ -10,7 +10,7 @@ type HeroProps = {
 
 const Hero = ({ name, role, bio, avatar }: HeroProps) => {
   return (
-    <section className="px-6 py-12 max-w-5xl mx-auto bg-gray-100 rounded-xl flex flex-col items-center gap-6 text-center">
+    <section className="px-6 py-12 max-w-5xl mx-auto bg-gray-100 dark:bg-gray-800 rounded-xl flex flex-col items-center gap-6 text-center">
       {/* Profile Section */}
       <div className="flex items-center gap-4">
         <div className="w-20 h-20 rounded-full overflow-hidden">
@@ -18,13 +18,17 @@ const Hero = ({ name, role, bio, avatar }: HeroProps) => {
         </div>
 
         <div className="text-left">
-          <h2 className="text-xl font-semibold text-gray-900">{name}</h2>
-          <p className="text-sm text-gray-600">{role}</p>
+          <h2 className="text-xl font-semibold text-gray-900 dark:text-white">
+            {name}
+          </h2>
+          <p className="text-sm text-gray-600 dark:text-gray-400">{role}</p>
         </div>
       </div>
 
       {/* Bio */}
-      <p className="text-gray-700 text-base leading-relaxed max-w-3xl">{bio}</p>
+      <p className="text-gray-700 dark:text-gray-300 text-base leading-relaxed max-w-3xl">
+        {bio}
+      </p>
 
       {/* Social Links */}
       <div className="flex gap-4">
@@ -50,7 +54,7 @@ export default Hero;
 /* Reusable Social Icon Component */
 const SocialIcon = ({ children }: { children: React.ReactNode }) => {
   return (
-    <div className="w-10 h-10 rounded-lg bg-gray-600 hover:bg-gray-800 transition text-white flex items-center justify-center cursor-pointer">
+    <div className="w-10 h-10 rounded-lg bg-gray-600 dark:bg-gray-700 hover:bg-gray-800 dark:hover:bg-gray-600 transition text-white flex items-center justify-center cursor-pointer">
       {children}
     </div>
   );
