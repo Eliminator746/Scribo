@@ -129,9 +129,10 @@ export const apiSlice = createApi({
     // BLOGS
     // ======================================================
 
-    getBlogs: builder.query<Blog[], FilterParams | void>({
-      query: () => ({
+    getBlogs: builder.query<BlogListResponse, FilterParams | void>({
+      query: (params) => ({
         url: "/blogs/",
+        params: params || {},
       }),
       providesTags: ["Blog"],
     }),

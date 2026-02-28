@@ -104,6 +104,9 @@ export interface Blog {
 }
 
 export interface BlogListResponse {
+  count: number;
+  next: string | null;
+  previous: string | null;
   results: Blog[];
 }
 
@@ -148,7 +151,7 @@ export interface PaginationParams {
   page?: number;
   page_size?: number;
   limit?: number;
-  offset?: number;
+  start?: number;
 }
 
 export interface FilterParams extends PaginationParams {

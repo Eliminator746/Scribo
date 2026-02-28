@@ -3,6 +3,7 @@ from rest_framework.generics import ListCreateAPIView
 from rest_framework.permissions import IsAuthenticated, AllowAny
 from rest_framework.response import Response
 from django.db.models import Q
+from .pagination import BlogListLOPagination
 
 from .permissions import IsBlogAuthor
 from .models import Blog
@@ -18,6 +19,7 @@ class BlogListCreateView(ListCreateAPIView):
     POST /blogs/        -> create blog (auth required)
     """
     queryset = Blog.objects.all()
+    pagination_class = BlogListLOPagination
 
     def get_permissions(self):
         if self.request.method == "POST":
