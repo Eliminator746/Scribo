@@ -47,7 +47,7 @@ const Navbar = () => {
       <div className="flex items-center space-x-6">
         {userInfo && (
           <NavLink to="/profile" className={linkClasses}>
-            Hi, {userInfo.username}
+            Hi, {userInfo.user ? userInfo.user.split(" ")[0] : "User"}
           </NavLink>
         )}
 

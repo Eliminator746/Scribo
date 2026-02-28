@@ -97,7 +97,7 @@ class LoginView(APIView):
 
         login(request, user)
         return Response(
-            {"detail": "Login successful"},
+            {"detail": "Login successful", "user": user_obj.username },
             status=status.HTTP_200_OK,
         )
 

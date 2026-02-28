@@ -1,37 +1,12 @@
-import BlogCard, { BlogCardProps } from "./BlogCard";
-import thumbnail from "@/images/design_vii.jpg";
-
-const blogs: BlogCardProps[] = [
-  {
-    id: "1",
-    title: "Build an Ecommerce Web App with Django and React",
-    category: "Frontend",
-    image: thumbnail,
-    author: "Rohan",
-    date: "Feb 2026",
-    readTime: "5 min read",
-  },
-  {
-    id: "2",
-    title: "Mastering RTK Query for Scalable Apps",
-    category: "Redux",
-    image: thumbnail,
-    author: "Rohan",
-    date: "Feb 2026",
-    readTime: "6 min read",
-  },
-  {
-    id: "3",
-    title: "Advanced TypeScript Patterns in React",
-    category: "TypeScript",
-    image: thumbnail,
-    author: "Rohan",
-    date: "Feb 2026",
-    readTime: "7 min read",
-  },
-];
+import { useGetBlogsQuery } from "@/features/apiSlice";
+import BlogCard from "./BlogCard";
 
 const BlogContainer = () => {
+  const { data: blogs, isLoading, isError } = useGetBlogsQuery();
+
+  if (isLoading) return <p>Loading...</p>;
+  if (isError) return <p>Something went wrong.</p>;
+
   return (
     <section className="px-6 py-12 max-w-7xl mx-auto">
       {/* Section Title */}
@@ -41,9 +16,8 @@ const BlogContainer = () => {
 
       {/* Blog Grid */}
       <div className="grid gap-8 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
-        {blogs.map((blog) => (
-          <BlogCard key={blog.id} {...blog} />
-        ))}
+        {!isLoading &&
+          blogs.map((blog) => <BlogCard key={blog.id} {...blog} />)}
       </div>
 
       {/* Empty State */}

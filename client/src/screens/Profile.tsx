@@ -1,14 +1,11 @@
-import { useAppSelector } from "@/store/hooks";
 import { useGetCurrentUserQuery } from "@/features/apiSlice";
 import BlogContainer from "@/ui_components/Blogcontainer";
 import Hero from "@/ui_components/Hero";
 
 const Profile = () => {
-  const { userInfo } = useAppSelector((state) => state.auth);
   const { data: currentUser, isLoading, error } = useGetCurrentUserQuery();
 
-  // Use current user data if available, otherwise use stored userInfo
-  const profileData = currentUser || userInfo;
+  const profileData = currentUser;
 
   if (isLoading) {
     return (

@@ -1,13 +1,9 @@
 import { createSlice, type PayloadAction } from "@reduxjs/toolkit";
-
-interface NavbarState {
-  isSidebarOpen: boolean;
-  theme: "light" | "dark";
-}
+import type { NavbarState, Theme } from "./types";
 
 const initialState: NavbarState = {
   isSidebarOpen: false,
-  theme: (localStorage.getItem("theme") as "light" | "dark") || "light",
+  theme: (localStorage.getItem("theme") as Theme) || "light",
 };
 
 const navbarSlice = createSlice({
@@ -22,9 +18,11 @@ const navbarSlice = createSlice({
     },
     toggleTheme: (state) => {
       state.theme = state.theme === "light" ? "dark" : "light";
+      localStorage.setItem("theme", state.theme);
     },
-    setTheme: (state, action: PayloadAction<"light" | "dark">) => {
+    setTheme: (state, action: PayloadAction<Theme>) => {
       state.theme = action.payload;
+      localStorage.setItem("theme", action.payload);
     },
   },
 });

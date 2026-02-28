@@ -1,28 +1,19 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { BASE_URL } from "@/constants";
-
-interface LoginRequest {
-  email: string;
-  password: string;
-}
-
-interface User {
-  id: string;
-  username: string;
-  email: string;
-  bio?: string;
-  job_title?: string;
-  profile_picture_url?: string;
-  linkedin?: string;
-  twitter?: string;
-  facebook?: string;
-  youtube?: string;
-  instagram?: string;
-}
-
-interface LoginResponse {
-  detail: string;
-}
+import type {
+  LoginRequest,
+  User,
+  UserProfile,
+  RegisterRequest,
+  AuthResponse,
+  UserUpdateRequest,
+  Blog,
+  BlogListResponse,
+  BlogCreateRequest,
+  BlogUpdateRequest,
+  BlogDetailResponse,
+  FilterParams,
+} from "./types";
 
 // Helper function to get CSRF token from cookie - ditto from documentation
 function getCookie(name: string): string | null {
@@ -40,6 +31,23 @@ function getCookie(name: string): string | null {
   return cookieValue;
 }
 
+// Helper: build FormData only when needed
+const buildFormData = (data: Record<string, any>) => {
+  const formData = new FormData();
+
+  Object.entries(data).forEach(([key, value]) => {
+    if (value === undefined || value === null) return;
+
+    if (Array.isArray(value)) {
+      formData.append(key, JSON.stringify(value));
+    } else {
+      formData.append(key, value);
+    }
+  });
+
+  return formData;
+};
+
 const baseQuery = fetchBaseQuery({
   baseUrl: BASE_URL,
   credentials: "include",
@@ -54,28 +62,132 @@ const baseQuery = fetchBaseQuery({
 
 export const apiSlice = createApi({
   baseQuery,
-  tagTypes: ["Product", "Order", "User"],
+  tagTypes: ["User", "Blog"],
   endpoints: (builder) => ({
-    login: builder.mutation<LoginResponse, LoginRequest>({
-      query: (credentials) => ({
+    // ======================================================
+    // AUTH
+    // ======================================================
+
+    register: builder.mutation<AuthResponse, RegisterRequest>({
+      query: (body) => ({
+        url: "/accounts/auth/register/",
+        method: "POST",
+        body,
+      }),
+      invalidatesTags: ["User"],
+    }),
+
+    login: builder.mutation<AuthResponse, LoginRequest>({
+      query: (body) => ({
         url: "/accounts/login/",
         method: "POST",
-        body: credentials,
+        body,
       }),
+      invalidatesTags: ["User"],
     }),
-    logout: builder.mutation<LoginResponse, void>({
+
+    logout: builder.mutation<void, void>({
       query: () => ({
         url: "/accounts/logout/",
         method: "POST",
       }),
-      invalidatesTags: ["User"],
+      invalidatesTags: ["User", "Blog"],
     }),
+
+    // ======================================================
+    // USERS
+    // ======================================================
+
     getCurrentUser: builder.query<User, void>({
       query: () => "/accounts/users/me/",
       providesTags: ["User"],
     }),
+
+    updateCurrentUser: builder.mutation<User, UserUpdateRequest>({
+      query: (body) => ({
+        url: "/accounts/users/me/",
+        method: "PATCH",
+        body,
+      }),
+      invalidatesTags: ["User"],
+    }),
+
+    getUserByEmail: builder.query<User, string>({
+      query: (email) => ({
+        url: "/accounts/users/",
+        params: { email },
+      }),
+      providesTags: ["User"],
+    }),
+
+    getUserByUsername: builder.query<UserProfile, string>({
+      query: (username) => `/accounts/users/${username}/`,
+      providesTags: ["User"],
+    }),
+
+    // ======================================================
+    // BLOGS
+    // ======================================================
+
+    getBlogs: builder.query<Blog[], FilterParams | void>({
+      query: () => ({
+        url: "/blogs/",
+      }),
+      providesTags: ["Blog"],
+    }),
+
+    getBlogDetail: builder.query<BlogDetailResponse, string>({
+      query: (slug) => `/blogs/${slug}/`,
+      providesTags: ["Blog"],
+    }),
+
+    createBlog: builder.mutation<Blog, BlogCreateRequest>({
+      query: (data) => ({
+        url: "/blogs/",
+        method: "POST",
+        body: data.featured_image instanceof File ? buildFormData(data) : data,
+      }),
+      invalidatesTags: ["Blog"],
+    }),
+
+    updateBlog: builder.mutation<Blog, { id: number; data: BlogUpdateRequest }>(
+      {
+        query: ({ id, data }) => ({
+          url: `/blogs/${id}/manage/`,
+          method: "PATCH",
+          body:
+            data.featured_image instanceof File ? buildFormData(data) : data,
+        }),
+        invalidatesTags: ["Blog"],
+      },
+    ),
+
+    deleteBlog: builder.mutation<void, number>({
+      query: (id) => ({
+        url: `/blogs/${id}/manage/`,
+        method: "DELETE",
+      }),
+      invalidatesTags: ["Blog"],
+    }),
   }),
 });
 
-export const { useLoginMutation, useLogoutMutation, useGetCurrentUserQuery } =
-  apiSlice;
+export const {
+  // Auth
+  useRegisterMutation,
+  useLoginMutation,
+  useLogoutMutation,
+
+  // Users
+  useGetCurrentUserQuery,
+  useUpdateCurrentUserMutation,
+  useGetUserByEmailQuery,
+  useGetUserByUsernameQuery,
+
+  // Blogs
+  useGetBlogsQuery,
+  useCreateBlogMutation,
+  useGetBlogDetailQuery,
+  useUpdateBlogMutation,
+  useDeleteBlogMutation,
+} = apiSlice;
